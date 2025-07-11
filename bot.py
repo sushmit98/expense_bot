@@ -4,8 +4,8 @@ import os
 
 print("🤖 Bot is starting...")
 
-TELEGRAM_TOKEN = os.environ['7730348328:AAGvk7uQTAmNCoNe3CRMzFgnzgXsORQjZq0']
-SCRIPT_URL = os.environ['https://script.google.com/macros/s/AKfycbymB9SOjsSWxdU9fxT9QgB_xh3yUsmsWaFD1fPWI01pOJDNTp2xPbvh0gthfWCfGIyh/exec']
+TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
+SCRIPT_URL = os.environ['SCRIPT_URL']
 
 # Store user IDs mapped to sheet names
 user_map = {
