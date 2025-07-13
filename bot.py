@@ -1,11 +1,16 @@
 from telegram.ext import Updater, MessageHandler, Filters
-import requests
-import os
+import requests, os, logging
 
 print("🤖 Bot is starting...")
 
 TELEGRAM_TOKEN = os.environ['TELEGRAM_TOKEN']
 SCRIPT_URL = os.environ['SCRIPT_URL']
+PORT        = int(os.environ.get("PORT", 10000))      # Render injects PORT
+PUBLIC_URL  = os.environ.get(
+                "RENDER_EXTERNAL_URL",                # auto-set by Render :contentReference[oaicite:0]{index=0}
+                os.environ.get("APP_URL")             # fallback: user-defined
+             ).rstrip("/")                            # remove trailing “/” if any
+
 
 # Store user IDs mapped to sheet names
 user_map = {
@@ -46,5 +51,10 @@ updater = Updater(TELEGRAM_TOKEN)
 dp = updater.dispatcher
 dp.add_handler(MessageHandler(Filters.text & ~Filters.command, handle_message))
 
-updater.start_polling()
+updater.start_webhook(
+        listen="0.0.0.0",
+        port=PORT,
+        url_path=TELEGRAM_TOKEN)
+
+updater.bot.set_webhook(f"{PUBLIC_URL}/{TELEGRAM_TOKEN}")
 updater.idle()
